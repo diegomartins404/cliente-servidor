@@ -21,7 +21,7 @@ public class Cliente {
     }
 
     public void enviaDados(Mensagem args) throws IOException, ClassNotFoundException {
-        /*o socket deve ser passado por parametro para se instanciar um input*/
+        /*o socket deve ser passado por parametro para se instancia um input*/
         ObjectInputStream input = new ObjectInputStream(this.socket.getInputStream());
         ObjectOutputStream output = new ObjectOutputStream(this.socket.getOutputStream());
         output.writeObject(args);
