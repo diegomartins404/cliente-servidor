@@ -30,17 +30,27 @@ public class ServidorRepasse{
                 arg2 = (String) dados.getParam("arg2");
 
                 String[] enderecoDestino;
-                if (oper == "s") {
-                    enderecoDestino = enderecoSoma;
-                } else {
-                    enderecoDestino = enderecoConcat;
-                }
 
                 Cliente cliente = new Cliente(enderecoDestino);
-
                 Mensagem consulta = new Mensagem();
-                consulta.setParam("arg1", arg1);
-                consulta.setParam("arg2", arg2);
+
+                try {
+                    switch (oper) {
+                        case "s":
+                            enderecoDestino = enderecoSoma;
+                        case "c":
+                            enderecoDestino = enderecoConcat;
+                        default:
+                            throw new RuntimeException();
+                    }
+
+                    consulta.setParam("arg1", arg1);
+                    consulta.setParam("arg2", arg2);
+
+                } catch (RuntimeException e) {
+                    System.out.println("Operação inválida");
+                    consulta.setParam("resposta", "Operação inválida");
+                }
 
                 cliente.enviaDados(consulta);
 
