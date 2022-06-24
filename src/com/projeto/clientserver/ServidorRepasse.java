@@ -1,31 +1,59 @@
 package com.projeto.clientserver;
 import java.net.*;
 import java.io.*;
-import com.projeto.clientserver.Mensagem;
-import com.projeto.clientserver.Cliente;
 
-public class ServidorRepasse {
+public class ServidorRepasse{
+    private ServerSocket serverSocket;
     public static void main(String[] args) throws IOException{
+        Mensagem dados;
+        String oper, arg1, arg2;
 
-        if (args.length != 1){
-            System.err.println("Uso: java Servidor <numero da porta> <servico>; Onde em serviço s = soma e c = concatenção");
-            System.exit(1);
-        }
-        int numeroPorta = Integer.parseInt(args[0]);
-        try (
-                ServerSocket serverSocket = new ServerSocket(numeroPorta);
-                Socket clientSocket = serverSocket.accept();
+        String[] enderecoSoma = new String[]{"localost", "12536"};
+        String[] enderecoConcat = new String[]{"localhost", "15536"};
 
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        int numeroPorta = 6789; //Integer.parseInt(args[0]);
+        ObjectOutputStream output;
+        ObjectInputStream input;
 
-                InputStreamReader isr = new InputStreamReader(clientSocket.getInputStream());
-                BufferedReader in = new BufferedReader(isr);
-        ) {
-            String str, conteudo = "";
-            while((str = in.readLine()) != null){
-                conteudo += str;
+        try {
+            Servidor servidor = new Servidor(numeroPorta);
+            servidor.abreOuvidor();
+            System.out.println("conectou");
 
+            output = servidor.output();
+            input = servidor.input();
+
+            while(true) {
+                dados = (Mensagem) input.readObject();
+                oper = (String) dados.getParam("op");
+                arg1 = (String) dados.getParam("arg1");
+                arg2 = (String) dados.getParam("arg2");
+
+                String[] enderecoDestino;
+                if (oper == "s") {
+                    enderecoDestino = enderecoSoma;
+                } else {
+                    enderecoDestino = enderecoConcat;
+                }
+
+                Cliente cliente = new Cliente(enderecoDestino);
+
+                Mensagem consulta = new Mensagem();
+                consulta.setParam("arg1", arg1);
+                consulta.setParam("arg2", arg2);
+
+                cliente.enviaDados(consulta);
+
+                Mensagem resultado = cliente.getResposta();
+                output.writeObject(resultado);
+
+                output.flush();
             }
+
+        } catch (IOException e){
+            System.out.println("ERRO: Cliente não sincronizado");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }

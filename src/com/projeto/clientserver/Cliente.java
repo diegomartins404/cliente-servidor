@@ -13,6 +13,9 @@ public class Cliente {
     Mensagem resposta;
 
     Socket socket;
+    ObjectOutputStream output;
+
+    ObjectInputStream input;
 
     public Cliente(String[] endereco) throws IOException {
         this.ip = endereco[0];
@@ -20,20 +23,17 @@ public class Cliente {
         this.socket = new Socket(endereco[0], Integer.parseInt(endereco[1]));
     }
 
-    public void enviaDados(Mensagem args) throws IOException, ClassNotFoundException {
-        /*o socket deve ser passado por parametro para se instancia um input*/
-        ObjectInputStream input = new ObjectInputStream(this.socket.getInputStream());
-        ObjectOutputStream output = new ObjectOutputStream(this.socket.getOutputStream());
-        output.writeObject(args);
-        output.flush();
-        this.resposta = (Mensagem) input.readObject();
+    public void enviaDados(Mensagem args) throws IOException {
+        this.output = new ObjectOutputStream(this.socket.getOutputStream());
+        this.input = new ObjectInputStream(this.socket.getInputStream());
+        this.output.writeObject(args);
+        this.output.flush();
     }
 
     public Socket getSocket() {
         return this.socket;
     }
-    public Mensagem getResposta()
-    {
-        return this.resposta;
+    public Mensagem getResposta() throws IOException, ClassNotFoundException {
+        return (Mensagem) this.input.readObject();
     }
 }

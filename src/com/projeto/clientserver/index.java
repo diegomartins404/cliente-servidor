@@ -4,30 +4,21 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class index {
-    public static void main() throws IOException, ClassNotFoundException {
-        String[] endereco, dados;
-        String item1, item2, op;
-        /*Scanner input = new Scanner(System.in);
-        item1 = input.nextLine();
-        item2 = input.nextLine();
-        op = input.nextLine();*/
+    public static void main(String[] argss) throws IOException, ClassNotFoundException {
+        String[] endereco;
 
-
-        /*endereco: strings:
-            1. ip;
-            2. porta*/
-
-
-        endereco = new String[]{"localhost", "3333"};
-
-        dados = new String[]{"3", "2", "s"};
-        Mensagem mensagem = new Mensagem(dados);
-
+        endereco = new String[]{"localhost", "6789"};
         Cliente cliente = new Cliente(endereco);
-        Mensagem resposta = cliente.getResposta();
+
+        Mensagem mensagem = new Mensagem();
+        mensagem.setParam("op", "3");
+        mensagem.setParam("arg1", "3");
+        mensagem.setParam("arg2", "4");
+
+
+
         cliente.enviaDados(mensagem);
-  /*coloar o envia msg para pedir um socket e a mensagem em si como parametros*/
-
-
+        Mensagem resposta = cliente.getResposta();
+        System.out.println("sexo");
     }
 }

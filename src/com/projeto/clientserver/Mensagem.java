@@ -1,20 +1,15 @@
 package com.projeto.clientserver;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Mensagem {
+public class Mensagem implements Serializable {
 
-    public String operacao;
-    public String arg1;
-    public String arg2;
     Map<String, Object> params;
 
-    public Mensagem(String[] args)
+    public Mensagem()
     {
-        this.operacao = args[0];
-        this.arg1= args[1];
-        this.arg2 = args[2];
         params = new HashMap<>();
     }
 
