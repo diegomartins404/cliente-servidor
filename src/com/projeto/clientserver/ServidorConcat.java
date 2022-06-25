@@ -9,7 +9,7 @@ public class ServidorConcat
     public static void main(String[] args) throws IOException
     {
         String arg1, arg2;
-        int numeroPorta = 12536;
+        int numeroPorta = 52536;
         ObjectInputStream input;
         ObjectOutputStream output;
         Mensagem resposta, dadosRecebidos;

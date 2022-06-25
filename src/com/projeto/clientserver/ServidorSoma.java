@@ -26,7 +26,7 @@ public class ServidorSoma {
             arg1 = (String) dados.getParam("arg1");
             arg2 = (String) dados.getParam("arg2");
 
-            soma = String.valueOf(Integer.parseInt(arg1) + Integer.parseInt(arg2)) ;
+            soma = String.valueOf(Integer.parseInt(arg1) + Integer.parseInt(arg2));
 
             dados.setParam("resultado", soma);
 

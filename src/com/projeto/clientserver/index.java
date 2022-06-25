@@ -7,15 +7,15 @@ public class index {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         String[] endereco;
         Mensagem resposta;
-        String resultado, op, arg1, arg2;
+        String resultado;
 
         endereco = new String[]{"localhost", "6789"};
         Cliente cliente = new Cliente(endereco);
 
-        Scanner input = new Scanner(System.in);
-        op = input.nextLine();
-        arg1 = input.nextLine();
-        arg2 = input.nextLine();
+        Scanner inputTeclado = new Scanner(System.in);
+        String op = inputTeclado.nextLine();
+        String arg1 = inputTeclado.nextLine();
+        String arg2 = inputTeclado.nextLine();
 
         Mensagem mensagem = new Mensagem();
         mensagem.setParam("op", op);

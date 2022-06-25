@@ -8,8 +8,8 @@ public class ServidorRepasse{
         Mensagem dados;
         String oper, arg1, arg2;
 
-        String[] enderecoSoma = new String[]{"localost", "15536"};
-        String[] enderecoConcat = new String[]{"localhost", "12536"};
+        String[] enderecoSoma = new String[]{"localhost", "15536"};
+        String[] enderecoConcat = new String[]{"localhost", "52536"};
 
         int numeroPorta = 6789; //Integer.parseInt(args[0]);
         ObjectOutputStream output;

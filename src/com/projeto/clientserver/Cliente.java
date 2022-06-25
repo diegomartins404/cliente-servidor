@@ -3,7 +3,7 @@ package com.projeto.clientserver;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.*;
+import java.net.Socket;
 
 public class Cliente {
 
