@@ -1,6 +1,6 @@
 package com.projeto.clientserver;
 
-import java.io.IOException;
+import java.io.*;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -12,8 +12,7 @@ public class ServidorConcat
         int numeroPorta = 12536;
         ObjectInputStream input;
         ObjectOutputStream output;
-        Mensagem resposta;
-
+        Mensagem resposta, dadosRecebidos;
 
         try {
             Servidor servidor = new Servidor(numeroPorta);
@@ -24,17 +23,22 @@ public class ServidorConcat
             input = servidor.input();
 
             while(true){
-                Mensagem dadosRecebidos = input.readObject();
-                arg1 = (String) dadosRecebidos.getParam("arg1");
-                arg2 = (String) dadosRecebidos.getParam("arg2");
+                try{
+                    dadosRecebidos = (Mensagem) input.readObject();
+                    arg1 = (String) dadosRecebidos.getParam("arg1");
+                    arg2 = (String) dadosRecebidos.getParam("arg2");
 
-                String concat = arg1 + arg2;
+                    String concat = arg1 + arg2;
 
-                dadosRecebidos.setParam("resposta", concat);
+                    dadosRecebidos.setParam("resultado", concat);
 
-                output.writeObject(dadosRecebidos);
+                    output.writeObject(dadosRecebidos);
 
-                output.flush();
+                    output.flush();
+
+                } catch(ClassNotFoundException e){
+                    System.out.println(e.toString());
+                }
             }
         }catch(IOException e){
             System.out.println(e.getMessage());
